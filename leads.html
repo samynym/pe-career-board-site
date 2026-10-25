@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>PE Leads: companies to contact from Africa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root { color-scheme: light; }
+  :root[data-theme="dark"] { color-scheme: light; }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: #F0EEE6 !important;
+    color: #2b2620;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    html, body { background: #F0EEE6 !important; color: #2b2620 !important; }
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  h1 { font-size: 22px; margin: 0 0 4px; font-weight: 650; color: #201c17; }
+  .subtitle { font-size: 13px; color: #6b6255; margin: 0 0 20px; }
+
+  .toolbar {
+    position: sticky; top: 0; z-index: 5;
+    background: #F0EEE6;
+    padding: 12px 0 14px;
+    border-bottom: 1px solid #ddd6c8;
+  }
+  #search {
+    width: 100%;
+    font-size: 15px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #ddd6c8;
+    background: #fffdf9;
+    color: #201c17;
+    outline: none;
+  }
+  #search:focus { border-color: #D97757; box-shadow: 0 0 0 3px rgba(217,119,87,0.15); }
+
+  .toolbar-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+  .count { font-size: 12.5px; color: #857a68; }
+
+  .chip, .hchip {
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1.5px solid #ddd6c8;
+    background: #fffdf9;
+    color: #55503f;
+    cursor: pointer;
+    user-select: none;
+  }
+  .chip { display: none; }
+  body.tagging .chip { display: inline-block; }
+  .chip.active { background: #e6f2ea; border-color: #21713f; color: #21713f; }
+  .hires-label { font-size: 12.5px; color: #857a68; font-weight: 600; }
+  .hchip.active { background: #fdf1e2; border-color: #D97757; color: #91591a; }
+  .hires-cell { font-size: 12.5px; color: #4a4438; }
+  .hires-cell .hires-known { border-bottom: 1px dotted #b0a68f; cursor: help; }
+  .hires-cell .hires-companylvl { font-style: italic; color: #6b6255; }
+  .hires-cell .hires-src {
+    font-style: normal; font-size: 9.5px; font-weight: 700;
+    background: #eee3d8; color: #7a4a2c; border-radius: 4px;
+    padding: 1px 4px; margin-left: 5px; vertical-align: 1px;
+  }
+  .hires-cell .hires-unknown { color: #b3aa8f; }
+
+  #toast {
+    position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+    background: #a33d2a; color: #fffdf9;
+    font-size: 13px; font-weight: 600;
+    padding: 10px 16px; border-radius: 10px;
+    opacity: 0; pointer-events: none; transition: opacity .25s;
+    z-index: 20; max-width: 90vw;
+  }
+  #toast.show { opacity: 1; }
+
+  .table-scroll {
+    margin-top: 16px;
+    border: 1px solid #ddd6c8;
+    border-radius: 12px;
+    overflow: auto;
+    max-height: 74vh;
+    background: #fffdf9;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  thead th {
+    position: sticky; top: 0;
+    background: #ece7d9;
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 650;
+    color: #2b2620;
+    border-bottom: 1px solid #ddd6c8;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    z-index: 1;
+  }
+  thead th:hover { background: #e5e0d0; }
+  thead th .arrow { color: #D97757; margin-left: 3px; font-size: 11px; }
+  tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee8da;
+    vertical-align: top;
+    color: #2b2620;
+  }
+  tbody tr:hover { background: #f7f2e6; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .role { font-weight: 600; }
+  .company { font-weight: 500; color:#4a4438; }
+
+  .badge {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .badge-remote { background: #e6f2ea; color: #21713f; }
+  .badge-hybrid { background: #fdf1e2; color: #91591a; }
+  .badge-onsite { background: #efe9db; color: #55503f; }
+  .badge-unknown { background: #efe9db; color: #8a8170; }
+
+  .source-tag {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    background: #eee3d8;
+    color: #7a4a2c;
+  }
+
+  .posted-date { white-space: nowrap; }
+  .posted-age { display: block; font-size: 11.5px; color: #8a8170; }
+  .posted-age.recent { color: #21713f; font-weight: 600; }
+
+  a.apply {
+    color: #D97757;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  a.apply:hover { text-decoration: underline; }
+
+  .salary { white-space: nowrap; color: #4a4438; }
+  .empty-row td { text-align: center; color: #8a8170; padding: 30px; }
+
+  /* Applied tagging (only visible with the private link) */
+  .applied-col { display: none; }
+  body.tagging .applied-col { display: table-cell; }
+  .tagbtn {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    border: 1.5px solid #ddd6c8;
+    background: #fffdf9;
+    color: transparent;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .tagbtn:hover { border-color: #21713f; color: #d6cdbd; }
+  .tagbtn.tagged { background: #e6f2ea; border-color: #21713f; color: #21713f; }
+  .applied-meta { display: block; font-size: 11px; color: #8a8170; margin-top: 4px; white-space: nowrap; }
+  tr.is-applied td:not(.applied-col) { opacity: 0.5; }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #ddd6c8; border-radius: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* Mobile: stacked cards instead of a wide table */
+  @media (max-width: 720px) {
+    .wrap { padding: 18px 12px 50px; }
+    h1 { font-size: 19px; }
+    .table-scroll {
+      max-height: none;
+      overflow: visible;
+      border: none;
+      background: transparent;
+      margin-top: 10px;
+    }
+    table, tbody { display: block; width: 100%; }
+    thead { display: none; }
+    tbody tr {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 8px;
+      background: #fffdf9;
+      border: 1px solid #ddd6c8;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    tbody tr:hover { background: #fffdf9; }
+    tbody td { display: block; padding: 0; border: none; }
+    td.cell-role { order: 1; width: 100%; font-size: 15.5px; }
+    td.cell-company { order: 2; width: 100%; font-size: 13.5px; }
+    td.cell-location { order: 3; font-size: 12.5px; color: #6b6255; }
+    td.cell-remote { order: 4; }
+    td.cell-hires { order: 4; font-size: 12px; }
+    td.cell-posted { order: 5; font-size: 12.5px; }
+    td.cell-posted .posted-age { display: inline; margin-left: 4px; }
+    td.cell-salary { order: 6; font-size: 12.5px; }
+    td.cell-source { order: 7; }
+    td.cell-apply { order: 8; margin-left: auto; }
+    td.cell-apply a.apply {
+      display: inline-block;
+      background: #D97757; color: #fffdf9;
+      padding: 8px 14px; border-radius: 9px;
+      font-size: 13.5px;
+    }
+    body.tagging .applied-col { display: flex; align-items: center; gap: 8px; order: 0; width: 100%; padding-bottom: 6px; border-bottom: 1px dashed #eee8da; margin-bottom: 4px; }
+    .tagbtn { width: 34px; height: 34px; }
+    .applied-meta { margin-top: 0; }
+    .empty-row { display: block; text-align: center; }
+  }
+
+  /* Career board additions */
+  .tabs { display: flex; gap: 8px; margin: 0 0 14px; }
+  .tab { display: none; }
+  body.private .tab { display: inline-block; }
+  .tab.active { background: #fdf1e2; border-color: #D97757; color: #91591a; }
+  select.flt {
+    font-size: 12.5px; font-weight: 600; padding: 5px 10px; border-radius: 999px;
+    border: 1.5px solid #ddd6c8; background: #fffdf9; color: #55503f;
+  }
+  .hchip.dreamflt { }
+  .star { color: #D97757; margin-right: 3px; }
+  .grade { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 4px; margin-left: 6px; vertical-align: 1px; }
+  .grade-strong { background: #e6f2ea; color: #21713f; }
+  .grade-ok { background: #fdf1e2; color: #91591a; }
+  .grade-weak { background: #f3dcd6; color: #a33d2a; }
+  .grade-unknown { background: #efe9db; color: #8a8170; }
+  .tier-open { background: #e6f2ea; color: #21713f; }
+  .tier-try { background: #fdf1e2; color: #91591a; }
+  .tier-unknown, .tier-closed { background: #efe9db; color: #8a8170; }
+  .pay-ok { color: #21713f; font-weight: 600; }
+  .pay-low { color: #a33d2a; }
+  .priv-col { display: none; }
+  body.private .priv-col { display: table-cell; }
+  .sc-likely { background: #e6f2ea; color: #21713f; }
+  .sc-stretch { background: #fdf1e2; color: #91591a; }
+  .sc-long_shot { background: #f3dcd6; color: #a33d2a; }
+  .sc-unknown { background: #efe9db; color: #8a8170; }
+  .gaps-top { font-size: 12.5px; color: #4a4438; }
+  tr.has-detail { cursor: pointer; }
+  tr.detail td { background: #f7f2e6; font-size: 13px; color: #3a352b; padding: 12px 16px; }
+  tr.detail ul { margin: 6px 0 0; padding-left: 18px; }
+  tr.detail li { margin-bottom: 6px; }
+  tr.detail q { color: #6b6255; }
+  .gaps-view { display: none; margin-top: 16px; }
+  body.gapsview .gaps-view { display: block; }
+  body.gapsview .jobs-view { display: none; }
+  .rating { font-weight: 600; }
+  .rating.none { color: #b3aa8f; font-weight: 400; }
+  @media (max-width: 720px) {
+    td.cell-family { order: 3; font-size: 12.5px; color: #6b6255; }
+    td.cell-tier { order: 4; }
+    td.cell-pay { order: 6; font-size: 12.5px; }
+    body.private td.priv-col { display: block; order: 9; }
+    td.cell-hires { order: 5; }
+    tr.detail { display: block; }
+    tr.detail td { display: block; width: 100%; }
+    body.gapsview .gaps-view table, body.gapsview .gaps-view tbody { display: block; }
+    body.gapsview .gaps-view thead { display: none; }
+    .gaps-view tbody tr { display: block; }
+    .gaps-view td { display: block; padding: 2px 0; }
+  }
+
+  .wrap { max-width: 860px; }
+  h2 { font-size: 16px; margin: 28px 0 2px; color: #201c17; }
+  h2::first-letter { text-transform: uppercase; }
+  h2 .n { background: #e6f2ea; color: #21713f; font-size: 12px; border-radius: 999px; padding: 2px 9px; vertical-align: 2px; }
+  .sub { font-size: 12.5px; color: #857a68; margin: 2px 0 12px; }
+  .lead { background: #fffdf9; border: 1px solid #ddd6c8; border-radius: 12px; padding: 12px 15px; margin-bottom: 9px; }
+  .lead-main { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .lead-main .grade { margin-left: 0; }
+  .co { font-weight: 650; font-size: 15px; color: #201c17; }
+  .dream { font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 4px; background: #f6e2d8; color: #a8482a; }
+  .lead-facts, .lead-roles { margin-top: 6px; font-size: 12.5px; color: #55503f; display: flex; gap: 14px; flex-wrap: wrap; }
+  .fact b { color: #6b6255; font-weight: 600; margin-right: 4px; }
+  .nodata { color: #8a8170; }
+  .role { text-decoration: none; background: #f3efe4; border-radius: 6px; padding: 2px 8px; }
+  .more { color: #8a8170; }
+  .none { color: #8a8170; font-size: 13px; padding: 8px 2px; }
+  .note { background: #fdf1e2; border: 1px solid #ecd9b8; border-radius: 10px; padding: 10px 14px; font-size: 12.5px; color: #6b5330; margin: 14px 0 0; }
+  @media (max-width: 720px) { .lead { padding: 11px 12px; } .lead-facts { flex-direction: column; gap: 4px; } }
+</style>
+</head><body>
+<div class="wrap">
+  <h1>PE Leads: companies to contact from Africa</h1>
+  <p class="subtitle">Generated Oct 25, 2026 · 16 companies graded with cited sources</p>
+  <p class="backlink"><a href="index.html">&larr; full job board</a></p>
+  <h2>open to Africa <span class="n">20</span></h2><p class="sub">Remote roles stated as open to Africa, or open worldwide. Reach out first here.</p><div class="lead"><div class="lead-main"><span class="co">Supabase</span><span class="grade grade-strong" title="Company upside grade">strong</span><span class="dream" title="On the dream list">dream</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://www.orrick.com/en/News/2025/10/Supabase-Raises-100-Million-Series-E-at-5-Billion-Valuation" target="_blank" rel="noopener">$10.5B (2026-06)</a></span><span class="fact"><b>Reviews</b> <a class="ev" href="https://www.glassdoor.sg/Reviews/Supabase-Reviews-E7639911.htm" target="_blank" rel="noopener">4.9 on Glassdoor</a></span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/supabase/bd5ce178-84c9-469e-89f4-493c21b50622/application" target="_blank" rel="noopener">Product Manager - Realtime</a><a class="role" href="https://jobs.ashbyhq.com/supabase/9a4c9984-07c7-4b47-982f-371de3f6ff50/application" target="_blank" rel="noopener">Product Manager - Auth</a></div></div><div class="lead"><div class="lead-main"><span class="co">PostHog</span><span class="grade grade-ok" title="Company upside grade">ok</span><span class="dream" title="On the dream list">dream</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://stockanalysis.com/private/posthog/" target="_blank" rel="noopener">$1.4B (2025-09-29)</a></span><span class="fact"><b>Reviews</b> <a class="ev" href="https://static.glassdoor.com.mx/Reviews/PostHog-Reviews-E4260520.htm" target="_blank" rel="noopener">4.4 on Glassdoor</a></span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/posthog/3c592b84-8b34-4ae4-ae23-cadce8f2212d/application" target="_blank" rel="noopener">Product Manager, Observability (ex-founder or ex-product engineer)</a><a class="role" href="https://jobs.ashbyhq.com/posthog/20ab9628-20ff-4ae3-bd6a-46ae7e9dc6b8/application" target="_blank" rel="noopener">Product Engineer</a></div></div><div class="lead"><div class="lead-main"><span class="co">RevenueCat</span><span class="dream" title="On the dream list">dream</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/revenuecat/e2358195-187c-4d7e-8081-b27360d0064e/application" target="_blank" rel="noopener">Senior Product Manager, User Acquisition</a><a class="role" href="https://jobs.ashbyhq.com/revenuecat/7a64d716-1a66-49d0-910b-a07d36d0b498/application" target="_blank" rel="noopener">Senior Product Manager, Analytics Features</a><a class="role" href="https://jobs.ashbyhq.com/revenuecat/1881e14c-7cc9-45de-ba1e-96a13fabe6df/application" target="_blank" rel="noopener">Senior Product Manager, Ad Monetization</a><a class="role" href="https://jobs.ashbyhq.com/revenuecat/d28235be-172c-40fe-91ae-8453f218f413/application" target="_blank" rel="noopener">Senior Product Manager, Funnels</a></div></div><div class="lead"><div class="lead-main"><span class="co">1password</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://www.darkreading.com/endpoint-security/1password-raises-620m-series-c-now-valued-at-6-8b" target="_blank" rel="noopener">$6.8B (2022-01)</a></span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/1password/0a11e3df-2212-419e-a1ff-dc501fa7a084/application" target="_blank" rel="noopener">Senior Product Manager</a><a class="role" href="https://jobs.ashbyhq.com/1password/0759fd1f-945b-40a6-95e1-e498bcab2044/application" target="_blank" rel="noopener">Senior Group Product Manager (Apono)</a><a class="role" href="https://jobs.ashbyhq.com/1password/ff516ff4-2726-4c18-ae6e-681640d9c81d/application" target="_blank" rel="noopener">Principal Product Manager, Security</a><a class="role" href="https://jobs.ashbyhq.com/1password/b141ee0c-30aa-42f8-8ff7-b353f7f9d060/application" target="_blank" rel="noopener">Principal Solutions Engineer, Emerging Technologies</a><span class="more">+2 more</span></div></div><div class="lead"><div class="lead-main"><span class="co">NICE</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact"><b>Reviews</b> <a class="ev" href="https://www.glassdoor.com/Reviews/NiCE-Reviews-E5674.htm" target="_blank" rel="noopener">3.9 on Glassdoor</a></span></div><div class="lead-roles"><a class="role" href="https://boards.eu.greenhouse.io/nice/jobs/4988812101?gh_jid=4988812101" target="_blank" rel="noopener">Portfolio Solution Engineer, Actimize</a><a class="role" href="https://boards.eu.greenhouse.io/nice/jobs/4961665101?gh_jid=4961665101" target="_blank" rel="noopener">Public Safety Solutions Engineer</a><a class="role" href="https://boards.eu.greenhouse.io/nice/jobs/4981245101?gh_jid=4981245101" target="_blank" rel="noopener">Senior Forward Deployed Engineer</a><a class="role" href="https://boards.eu.greenhouse.io/nice/jobs/4951008101?gh_jid=4951008101" target="_blank" rel="noopener">Partner Value Solution Engineer</a></div></div><div class="lead"><div class="lead-main"><span class="co">OKX</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://cointelegraph.com/news/okx-exchange-raises-capital-25b-valuation" target="_blank" rel="noopener">$25B (2026-10)</a></span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://job-boards.greenhouse.io/okx/jobs/8010187003" target="_blank" rel="noopener">Principal Product Manager - Simple Trading, Growth &amp; Retention</a><a class="role" href="https://job-boards.greenhouse.io/okx/jobs/8004117003" target="_blank" rel="noopener">Principal Product Manager - Professional Trading Tools &amp; Experience</a></div></div><div class="lead"><div class="lead-main"><span class="co">Dev</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.smartrecruiters.com/Dev2/743999785188682-product-manager-mobile-remote-?oga=true" target="_blank" rel="noopener">Product Manager, Mobile (Remote)</a><a class="role" href="https://jobs.smartrecruiters.com/Dev2/743999785183223-group-product-manager-technical-operations?oga=true" target="_blank" rel="noopener">Group Product Manager - Technical Operations</a><a class="role" href="https://jobs.smartrecruiters.com/Dev2/743999785181903-senior-technology-product-manager-servicenow?oga=true" target="_blank" rel="noopener">Senior Technology Product Manager - ServiceNow</a><a class="role" href="https://jobs.smartrecruiters.com/Dev2/743999785181771-group-product-manager-accommodations-us-product?oga=true" target="_blank" rel="noopener">Group Product Manager - Accommodations - US Product</a></div></div><div class="lead"><div class="lead-main"><span class="co">Pavago</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/pavago/j/F280D10F6F" target="_blank" rel="noopener">AI Product Engineer (Full Stack)</a><a class="role" href="https://apply.workable.com/pavago/j/5D149F271C" target="_blank" rel="noopener">AI Product Engineer (Full Stack)</a><a class="role" href="https://apply.workable.com/pavago/j/79AB6CD065" target="_blank" rel="noopener">AI Product Engineer (Full Stack)</a></div></div><div class="lead"><div class="lead-main"><span class="co">Weekday 1</span><span class="grade grade-unknown" title="Company upside grade">unknown</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/weekday-1/j/774E1218EF" target="_blank" rel="noopener">Solutions Engineer (CPAs)</a><a class="role" href="https://apply.workable.com/weekday-1/j/DF29924DC4" target="_blank" rel="noopener">Solutions Engineer Expert (CPAs)</a><a class="role" href="https://apply.workable.com/weekday-1/j/8253A32E3A" target="_blank" rel="noopener">Solutions Engineer (CPAs Preferred)</a></div></div><div class="lead"><div class="lead-main"><span class="co">Ajaia</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/ajaia/j/28C10B9CD7" target="_blank" rel="noopener">Product Manager</a><a class="role" href="https://apply.workable.com/ajaia/j/741C5E8B3F" target="_blank" rel="noopener">Full Stack Product Engineer</a></div></div><div class="lead"><div class="lead-main"><span class="co">Jobs for Humanity</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.smartrecruiters.com/JobsForHumanity/744000102101925-ai-platform-product-manager?oga=true" target="_blank" rel="noopener">AI Platform Product Manager</a><a class="role" href="https://jobs.smartrecruiters.com/JobsForHumanity/744000072960015-product-manager?oga=true" target="_blank" rel="noopener">Product Manager</a></div></div><div class="lead"><div class="lead-main"><span class="co">Valsoft Corp</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/valsoft-corp/j/B783E12C51" target="_blank" rel="noopener">Product Manager (m/w/d)</a><a class="role" href="https://apply.workable.com/valsoft-corp/j/585CBA1B36" target="_blank" rel="noopener">Technical Product Manager - Healthcare Technology Platform</a></div></div><div class="lead"><div class="lead-main"><span class="co">Careers At Sleek</span><span class="grade grade-unknown" title="Company upside grade">unknown</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/careers-at-sleek/j/6099F3857A" target="_blank" rel="noopener">AI Solutions Engineer</a></div></div><div class="lead"><div class="lead-main"><span class="co">Community Phone</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://ats.rippling.com/community-phone-careers/jobs/7c932ddb-8373-4926-ae6c-b0e79a3fa4bc" target="_blank" rel="noopener">Sr Growth Product Manager</a></div></div><div class="lead"><div class="lead-main"><span class="co">Improbable</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/Improbable/e1da34c8-7bb9-417c-ba75-6ce6214090c7/application" target="_blank" rel="noopener">Product Engineer</a></div></div><div class="lead"><div class="lead-main"><span class="co">Lucidya</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/lucidya/j/37C1CAB41E" target="_blank" rel="noopener">Senior Product Manager - Monitoring &amp; Research</a></div></div><div class="lead"><div class="lead-main"><span class="co">Smeetz</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/smeetz/j/4F925F7E12" target="_blank" rel="noopener">AI Product Engineer (Full-stack - Backend Oriented)</a></div></div><div class="lead"><div class="lead-main"><span class="co">Social Discovery Group</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://social-discovery-ventures.breezy.hr/p/e5a41beaf52b01-product-engineer-ai-native" target="_blank" rel="noopener">Product Engineer (AI-Native)</a></div></div><div class="lead"><div class="lead-main"><span class="co">Time Doctor</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://timedoctor.recruitee.com/o/growth-product-manager" target="_blank" rel="noopener">Growth Product Manager</a></div></div><div class="lead"><div class="lead-main"><span class="co">Town Web</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/town-web/j/504DE186EF" target="_blank" rel="noopener">Full-Stack Product Engineer for a US-based company (Remote)</a></div></div><h2>worth a try (same time zone) <span class="n">19</span></h2><p class="sub">Remote roles limited to Europe, UK. Not stated as open to Africa, but the time zone overlaps, so a short pitch can work.</p><div class="lead"><div class="lead-main"><span class="co">Linear</span><span class="grade grade-ok" title="Company upside grade">ok</span><span class="dream" title="On the dream list">dream</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://sacra.com/c/linear/" target="_blank" rel="noopener">$2.5B (after 2025-06 (employee tender offer, exact date not found))</a></span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/Linear/0c7c2e26-0a98-42cf-a47c-9a3999fb513b/application" target="_blank" rel="noopener">Product Engineer</a><a class="role" href="https://jobs.ashbyhq.com/Linear/d37b3d76-3080-47f9-8a19-60505573112c/application" target="_blank" rel="noopener">Solutions Engineer, Europe</a><a class="role" href="https://jobs.ashbyhq.com/Linear/12f8f208-0b9c-4569-bb3d-41c8a197029e/application" target="_blank" rel="noopener">Senior / Staff Product Engineer</a><a class="role" href="https://jobs.ashbyhq.com/Linear/86abcce0-04b2-405c-9a8e-e0ca84813914/application" target="_blank" rel="noopener">Product Manager</a><span class="more">+2 more</span></div></div><div class="lead"><div class="lead-main"><span class="co">AlphaSense</span><span class="grade grade-strong" title="Company upside grade">strong</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://eweek.com/news/alphasense-7-5b-valuation-350m-funding/" target="_blank" rel="noopener">$7.5B (2026-06)</a></span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://job-boards.greenhouse.io/alphasense/jobs/8887127002" target="_blank" rel="noopener">Product Manager, New Content Initiatives and Analysis</a></div></div><div class="lead"><div class="lead-main"><span class="co">Claylabs</span><span class="grade grade-strong" title="Company upside grade">strong</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://techcrunch.com/2025/08/05/clay-confirms-it-closed-100m-round-at-3-1b-valuation" target="_blank" rel="noopener">$3.1B (2025-08)</a></span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/claylabs/ddc46515-89d2-4f98-a383-437dfd38b123/application" target="_blank" rel="noopener">Solutions Engineer</a></div></div><div class="lead"><div class="lead-main"><span class="co">Parloa</span><span class="grade grade-strong" title="Company upside grade">strong</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://tech.eu/2026/01/15/parloa-raises-350m-tripling-valuation-to-3bn/" target="_blank" rel="noopener">$3B (2026-01)</a></span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://job-boards.eu.greenhouse.io/parloa/jobs/5009506101" target="_blank" rel="noopener">Manager, Forward Deployed Engineering</a></div></div><div class="lead"><div class="lead-main"><span class="co">Ashby</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/ashby/448baa35-cd72-468a-bcab-51dd55b7a275/application" target="_blank" rel="noopener">Staff Product Engineer - Canada</a><a class="role" href="https://jobs.ashbyhq.com/ashby/6a15668c-3f98-4404-8f1f-927cddfc5af7/application" target="_blank" rel="noopener">Staff Product Engineer - Americas</a><a class="role" href="https://jobs.ashbyhq.com/ashby/272bc3f4-5af6-4c14-b797-a424b62d306c/application" target="_blank" rel="noopener">Senior Product Engineer - Canada</a><a class="role" href="https://jobs.ashbyhq.com/ashby/751768c6-8d97-4e91-a57d-6b85ce4b5a37/application" target="_blank" rel="noopener">Senior Product Engineer - Americas</a></div></div><div class="lead"><div class="lead-main"><span class="co">Lucidlink</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/lucidlink/ef83087d-036d-4dd3-98d2-0c2818117006/application" target="_blank" rel="noopener">Post Sales Solutions Engineer, US-East</a><a class="role" href="https://jobs.ashbyhq.com/lucidlink/2b211127-8d9f-4852-a754-6063abebb90a/application" target="_blank" rel="noopener">Post Sales Solutions Engineer, EMEA</a></div></div><div class="lead"><div class="lead-main"><span class="co">Plaud</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://techfundingnews.com/plaud-eyes-2028-us-ipo-after-crossing-1b-valuation/" target="_blank" rel="noopener">$1B (2025)</a></span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/Plaud/4c7cd4b0-0c7c-491e-b8fa-4cf24236ce6c/application" target="_blank" rel="noopener">Staff Product Manager - San Francisco</a><a class="role" href="https://jobs.ashbyhq.com/Plaud/de70e9b7-0f95-4aae-b8fb-3339ecebb5e3/application" target="_blank" rel="noopener">Growth Product Manager Lead, AI Commercialization</a></div></div><div class="lead"><div class="lead-main"><span class="co">Clickhouse</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://finance.yahoo.com/news/database-management-firm-clickhouse-valued-164936709.html" target="_blank" rel="noopener">$15B (2026-01)</a></span><span class="fact"><b>Reviews</b> <a class="ev" href="https://www.glassdoor.com/Reviews/ClickHouse-Reviews-E6022924.htm" target="_blank" rel="noopener">3.5 on Glassdoor (search snippet)</a></span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/clickhouse/dc0ec843-13a4-4032-9992-7e7a924228c8/application" target="_blank" rel="noopener">Senior Product Manager, Billing &amp; Marketplaces</a></div></div><div class="lead"><div class="lead-main"><span class="co">Hospitable</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/hospitable/j/4EB7A80514" target="_blank" rel="noopener">Senior Product Manager, Core (USA/Europe - Remote)</a></div></div><div class="lead"><div class="lead-main"><span class="co">Nebius</span><span class="grade grade-ok" title="Company upside grade">ok</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact"><b>Reviews</b> <a class="ev" href="https://www.glassdoor.ie/Reviews/Nebius-Reviews-E8479624.htm" target="_blank" rel="noopener">4.2 on Glassdoor</a></span></div><div class="lead-roles"><a class="role" href="https://careers.nebius.com/?gh_jid=5001806101" target="_blank" rel="noopener">Product Manager - Anti Fraud </a></div></div><div class="lead"><div class="lead-main"><span class="co">C1</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/C1/1521592b-6fb5-4105-b75f-6bb361ca1806/application" target="_blank" rel="noopener">Senior Product Manager - Core IGA</a><a class="role" href="https://jobs.ashbyhq.com/C1/df703b17-a6c1-4421-b480-9dd40702394f/application" target="_blank" rel="noopener">Sr. Solutions Engineer</a></div></div><div class="lead"><div class="lead-main"><span class="co">127 Salesforce Argentina S.R.L.</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/United-Kingdom---London/Forward-Deployed-Consultant---Senior-Consultant--Value-Acceleration-_JR362407" target="_blank" rel="noopener">Forward Deployed Process Consultant</a></div></div><div class="lead"><div class="lead-main"><span class="co">Absorblms</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/absorblms/22d2dcb2-70ad-481a-8eb7-cd0503c7bbdc/application" target="_blank" rel="noopener">Principal Product Manager</a></div></div><div class="lead"><div class="lead-main"><span class="co">Affirm</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://job-boards.greenhouse.io/affirm/jobs/8020318003" target="_blank" rel="noopener">Senior Product Manager</a></div></div><div class="lead"><div class="lead-main"><span class="co">David Kennedy Recruitment</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://davidkennedyrecruitment.teamtailor.com/jobs/8538378-trust-safety-product-manager" target="_blank" rel="noopener">Trust &amp; Safety Product Manager</a></div></div><div class="lead"><div class="lead-main"><span class="co">Ideals</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/ideals/8a8ca126-3b80-4351-a775-3302a7960426/application" target="_blank" rel="noopener">Senior Product Manager</a></div></div><div class="lead"><div class="lead-main"><span class="co">Resolver</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.jobvite.com/resolver/job/oiAYAfwa" target="_blank" rel="noopener">Solutions Engineer</a></div></div><div class="lead"><div class="lead-main"><span class="co">Zello</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/Zello/28961683-bd4e-4210-837f-8a1436fe7e80/application" target="_blank" rel="noopener">Senior Product Manager </a></div></div><div class="lead"><div class="lead-main"><span class="co">Benchling</span><span class="grade grade-weak" title="Company upside grade">weak</span></div><div class="lead-facts"><span class="fact"><b>Valuation</b> <a class="ev" href="https://www.clinicaltrialsarena.com/news/life-sciences-software-company-benchling-trims-workforce-by-9/" target="_blank" rel="noopener">$6B (2021-11)</a></span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/benchling/33c6c504-9ca4-4cae-8ebc-cfc55127b2bf/application" target="_blank" rel="noopener">Product Manager, Study Lifecycle</a><a class="role" href="https://jobs.ashbyhq.com/benchling/358ff26c-7b23-4645-b906-2244c76e2cb2/application" target="_blank" rel="noopener">Product Manager, Platform</a><a class="role" href="https://jobs.ashbyhq.com/benchling/345fa9cf-c753-4fe0-91a4-1e37e0cde651/application" target="_blank" rel="noopener">Product Manager, Infrastructure</a><a class="role" href="https://jobs.ashbyhq.com/benchling/3b50ebb7-4e9e-4ede-aaf7-d5ce91ca7eb3/application" target="_blank" rel="noopener">Product Manager, Process Execution</a><span class="more">+1 more</span></div></div><h2>No open role yet, hires from Africa <span class="n">9</span></h2><p class="sub">No matching role posted today, but company research says they hire from Africa. Reach out before a role is posted.</p><div class="lead"><div class="lead-main"><span class="co">Azeus Convene</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://apply.workable.com/azeus-convene" target="_blank" rel="noopener">careers page</a></div></div><div class="lead"><div class="lead-main"><span class="co">Databento</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://boards.greenhouse.io/databento" target="_blank" rel="noopener">careers page</a></div></div><div class="lead"><div class="lead-main"><span class="co">Duolingo</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://duolingo.breezy.hr" target="_blank" rel="noopener">careers page</a></div></div><div class="lead"><div class="lead-main"><span class="co">Mento</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/mento" target="_blank" rel="noopener">careers page</a></div></div><div class="lead"><div class="lead-main"><span class="co">Migratecorp</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.smartrecruiters.com/MigrateCorp" target="_blank" rel="noopener">careers page</a></div></div><div class="lead"><div class="lead-main"><span class="co">Saasgroup</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://boards.greenhouse.io/saasgroup" target="_blank" rel="noopener">careers page</a></div></div><div class="lead"><div class="lead-main"><span class="co">Talentuch</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://talentuch.breezy.hr" target="_blank" rel="noopener">careers page</a></div></div><div class="lead"><div class="lead-main"><span class="co">Testgorilla</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://jobs.ashbyhq.com/testgorilla" target="_blank" rel="noopener">careers page</a></div></div><div class="lead"><div class="lead-main"><span class="co">Testlio</span></div><div class="lead-facts"><span class="fact nodata"><b>Valuation</b> no data</span><span class="fact nodata"><b>Reviews</b> no data</span></div><div class="lead-roles"><a class="role" href="https://boards.greenhouse.io/testlio" target="_blank" rel="noopener">careers page</a></div></div>
+  <div class="note">Ranked by how reachable the company is from Africa, dream-list companies first,
+  then company grade. Valuation and reviews come from public sources and link to them. "no data" means no
+  sourced figure was found.</div>
+</div>
+</body></html>
